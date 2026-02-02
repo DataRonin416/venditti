@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PVR Report Viewer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img class="brand__logo" src="assets/logo.avif" alt="Company logo" />
+      <div class="brand__text">
+        <div class="brand__title">PVR Report Viewer</div>
+        <div class="brand__subtitle">Client-friendly report preview</div>
+      </div>
+    </div>
+
+    <div class="topbar__actions">
+      <button id="btnExample" class="btn btn--ghost" type="button">Load example</button>
+      <button id="btnClear" class="btn btn--ghost" type="button">Clear</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h1 class="h1">Upload or paste your report JSON</h1>
+      <p class="muted">
+        This page displays a polished, non-technical view of your report output. It does not edit your data.
+      </p>
+
+      <div class="inputGrid">
+        <div class="inputBlock">
+          <label class="label" for="fileInput">Upload a JSON file</label>
+          <input id="fileInput" class="file" type="file" accept=".json,application/json" />
+          <div class="hint">Tip: Save the engine output as a <strong>.json</strong> file and upload it here.</div>
+        </div>
+
+        <div class="inputBlock">
+          <label class="label" for="textInput">Or paste JSON</label>
+          <textarea id="textInput" class="textarea" placeholder='Paste the full JSON here...'></textarea>
+          <div class="hint">If it’s large, upload a file instead.</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <button id="btnRender" class="btn btn--primary" type="button">Render report</button>
+        <div id="statusPill" class="pill pill--neutral" aria-live="polite">Waiting for input</div>
+      </div>
+
+      <div id="errorBox" class="error hidden" role="alert"></div>
+    </section>
+
+    <section id="viewer" class="card hidden">
+      <div class="viewerHeader">
+        <div>
+          <h2 class="h2">Report preview</h2>
+          <div class="muted" id="viewerMeta"></div>
+        </div>
+
+        <div class="viewerHeader__actions">
+          <div class="segmented" role="tablist" aria-label="View selection">
+            <button id="tabReport" class="segmented__btn is-active" type="button" role="tab" aria-selected="true">Report view</button>
+            <button id="tabTables" class="segmented__btn" type="button" role="tab" aria-selected="false">Detailed tables</button>
+          </div>
+          <button id="btnDownloadJson" class="btn btn--ghost" type="button">Download JSON</button>
+        </div>
+      </div>
+
+      <div id="reportView" class="view"></div>
+      <div id="tablesView" class="view hidden"></div>
+    </section>
+
+    <footer class="footer">
+      <div class="muted small">
+        Note: Building codes often require identifying and addressing expansive soils, but they generally do not set a numeric PVR limit. Any numeric target shown is an engineering performance criterion unless the report states otherwise.
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
