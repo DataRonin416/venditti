@@ -1,82 +1,194 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PVR Report Viewer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI PVR Conversion Review Tool | Vendetti</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <img class="brand__logo" src="assets/logo.avif" alt="Company logo" />
-      <div class="brand__text">
-        <div class="brand__title">PVR Report Viewer</div>
-        <div class="brand__subtitle">Client-friendly report preview</div>
+  <div class="container">
+
+    <header class="reveal">
+      <div class="logoBadge">
+        <img class="logoImg" src="Vendetti-Logo-Blue-White.avif" alt="Vendetti logo" />
       </div>
-    </div>
 
-    <div class="topbar__actions">
-      <button id="btnExample" class="btn btn--ghost" type="button">Load example</button>
-      <button id="btnClear" class="btn btn--ghost" type="button">Clear</button>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="card">
-      <h1 class="h1">Upload or paste your report JSON</h1>
-      <p class="muted">
-        This page displays a polished, non-technical view of your report output. It does not edit your data.
+      <h1>AI PVR Conversion Review Tool</h1>
+      <p class="tagline">Transform Geotechnical Reports in Minutes, Not Days</p>
+      <p class="hero-text">
+        Automated AI-powered analysis that converts soil reports into professional PVR Conversion Reports
+        with speed and consistency.
       </p>
 
-      <div class="inputGrid">
-        <div class="inputBlock">
-          <label class="label" for="fileInput">Upload a JSON file</label>
-          <input id="fileInput" class="file" type="file" accept=".json,application/json" />
-          <div class="hint">Tip: Save the engine output as a <strong>.json</strong> file and upload it here.</div>
-        </div>
+      <!-- Hero Illustration (Claude-style) -->
+      <svg class="hero-illustration" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+          </linearGradient>
+          <linearGradient id="documentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#f5f7fa;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#c3cfe2;stop-opacity:1" />
+          </linearGradient>
+        </defs>
 
-        <div class="inputBlock">
-          <label class="label" for="textInput">Or paste JSON</label>
-          <textarea id="textInput" class="textarea" placeholder='Paste the full JSON here...'></textarea>
-          <div class="hint">If it’s large, upload a file instead.</div>
-        </div>
-      </div>
+        <rect x="50" y="300" width="500" height="80" fill="#8B7355" opacity="0.3"/>
+        <rect x="100" y="320" width="50" height="20" fill="#FFA500" opacity="0.5"/>
+        <rect x="200" y="310" width="50" height="30" fill="#FFA500" opacity="0.5"/>
 
-      <div class="row">
-        <button id="btnRender" class="btn btn--primary" type="button">Render report</button>
-        <div id="statusPill" class="pill pill--neutral" aria-live="polite">Waiting for input</div>
-      </div>
+        <ellipse cx="500" cy="330" rx="25" ry="8" fill="#FFA500" opacity="0.4"/>
+        <path d="M 475 330 Q 500 310 525 330" fill="#FFA500" opacity="0.5"/>
 
-      <div id="errorBox" class="error hidden" role="alert"></div>
-    </section>
+        <rect x="80" y="120" width="150" height="200" fill="url(#documentGradient)" rx="5"/>
+        <line x1="100" y1="150" x2="210" y2="150" stroke="#667eea" stroke-width="3"/>
+        <line x1="100" y1="170" x2="210" y2="170" stroke="#667eea" stroke-width="3"/>
+        <line x1="100" y1="190" x2="210" y2="190" stroke="#667eea" stroke-width="3"/>
+        <line x1="100" y1="210" x2="180" y2="210" stroke="#667eea" stroke-width="3"/>
+        <line x1="100" y1="230" x2="210" y2="230" stroke="#667eea" stroke-width="2" opacity="0.5"/>
+        <line x1="100" y1="250" x2="190" y2="250" stroke="#667eea" stroke-width="2" opacity="0.5"/>
+        <text x="155" y="290" font-size="14" fill="#667eea" text-anchor="middle" font-weight="bold">Soil Report</text>
 
-    <section id="viewer" class="card hidden">
-      <div class="viewerHeader">
-        <div>
-          <h2 class="h2">Report preview</h2>
-          <div class="muted" id="viewerMeta"></div>
-        </div>
+        <circle cx="300" cy="220" r="60" fill="url(#heroGradient)" opacity="0.2"/>
+        <circle cx="300" cy="220" r="45" fill="url(#heroGradient)"/>
 
-        <div class="viewerHeader__actions">
-          <div class="segmented" role="tablist" aria-label="View selection">
-            <button id="tabReport" class="segmented__btn is-active" type="button" role="tab" aria-selected="true">Report view</button>
-            <button id="tabTables" class="segmented__btn" type="button" role="tab" aria-selected="false">Detailed tables</button>
+        <circle cx="280" cy="205" r="4" fill="white"/>
+        <circle cx="320" cy="205" r="4" fill="white"/>
+        <circle cx="280" cy="235" r="4" fill="white"/>
+        <circle cx="320" cy="235" r="4" fill="white"/>
+        <line x1="280" y1="205" x2="320" y2="205" stroke="white" stroke-width="2"/>
+        <line x1="280" y1="235" x2="320" y2="235" stroke="white" stroke-width="2"/>
+        <line x1="280" y1="205" x2="280" y2="235" stroke="white" stroke-width="2"/>
+        <line x1="320" y1="205" x2="320" y2="235" stroke="white" stroke-width="2"/>
+        <circle cx="300" cy="220" r="8" fill="white"/>
+
+        <path d="M 235 220 L 250 220" stroke="#764ba2" stroke-width="4" fill="none"/>
+        <polygon points="250,220 243,216 243,224" fill="#764ba2"/>
+
+        <path d="M 350 220 L 365 220" stroke="#764ba2" stroke-width="4" fill="none"/>
+        <polygon points="365,220 358,216 358,224" fill="#764ba2"/>
+
+        <rect x="370" y="120" width="150" height="200" fill="url(#documentGradient)" rx="5"/>
+        <rect x="385" y="145" width="120" height="8" fill="#28a745" rx="2"/>
+        <rect x="385" y="165" width="90" height="6" fill="#28a745" rx="2"/>
+        <rect x="385" y="180" width="110" height="6" fill="#28a745" rx="2"/>
+        <rect x="385" y="195" width="80" height="6" fill="#28a745" rx="2"/>
+
+        <circle cx="445" cy="245" r="25" fill="#28a745"/>
+        <path d="M 435 245 L 442 252 L 455 235" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="445" y="290" font-size="14" fill="#28a745" text-anchor="middle" font-weight="bold">PVR Report</text>
+      </svg>
+    </header>
+
+    <div class="main-content reveal">
+      <section class="features-section reveal">
+        <h2>How It Works</h2>
+
+        <div class="features-grid">
+          <div class="feature-card reveal">
+            <div class="feature-number">1</div>
+            <h3>Upload Your Report</h3>
+            <p>Upload a geotechnical soils report (PDF).</p>
           </div>
-          <button id="btnDownloadJson" class="btn btn--ghost" type="button">Download JSON</button>
+          <div class="feature-card reveal">
+            <div class="feature-number">2</div>
+            <h3>AI Extraction</h3>
+            <p>AI extracts all PVR-relevant data with traceability.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-number">3</div>
+            <h3>Soil Modifications</h3>
+            <p>Mitigation recommendations are produced when supported by the report data.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-number">4</div>
+            <h3>Data Validation</h3>
+            <p>Missing or unclear items are clearly flagged for review.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-number">5</div>
+            <h3>Concern Identification</h3>
+            <p>Areas of concern are highlighted with report references where available.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-number">6</div>
+            <h3>Report Generation</h3>
+            <p>A professional PVR Conversion Report is generated automatically.</p>
+          </div>
         </div>
-      </div>
 
-      <div id="reportView" class="view"></div>
-      <div id="tablesView" class="view hidden"></div>
-    </section>
+        <div class="deliverables reveal">
+          <h3>What You Receive:</h3>
+          <ul>
+            <li>A comprehensive report output</li>
+            <li>Structured data ready for internal workflows</li>
+            <li>A confidence score explaining result reliability</li>
+            <li>Clear next steps when information is missing</li>
+          </ul>
+          <div class="center">
+            <span class="speed-badge">⚡ Minutes — not days</span>
+          </div>
+        </div>
+      </section>
 
-    <footer class="footer">
-      <div class="muted small">
-        Note: Building codes often require identifying and addressing expansive soils, but they generally do not set a numeric PVR limit. Any numeric target shown is an engineering performance criterion unless the report states otherwise.
-      </div>
-    </footer>
-  </main>
+      <!-- Upload Section (Submit sends to Make webhook) -->
+      <section class="upload-section reveal">
+        <h2>Upload Your Geotechnical Report</h2>
+
+        <form id="uploadForm" enctype="multipart/form-data">
+          <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="Upload zone">
+            <div class="upload-text">Upload Geotechnical Report (PDF)</div>
+            <div class="upload-subtext">Click to select your file or drag and drop</div>
+            <input type="file" name="report_file" id="fileInput" accept="application/pdf" required />
+          </div>
+
+          <div class="file-list" id="fileList"></div>
+
+          <div id="additionalFields" class="additionalFields">
+            <div class="field">
+              <input type="text" name="project_hint" placeholder="Project name (optional)" />
+            </div>
+            <div class="field">
+              <input type="text" name="client_name" placeholder="Client name (optional)" />
+            </div>
+
+            <button type="button" id="submitBtn" class="btn-primary">Submit Report for Analysis</button>
+            <div id="statusMessage" class="statusMessage"></div>
+          </div>
+        </form>
+      </section>
+<div class="main-content disclaimer reveal">
+  <h3>LEGAL &amp; PROFESSIONAL DISCLAIMER</h3>
+
+  <p>
+    This PVR Conversion Report was generated using automated analysis and artificial intelligence based on the
+    information available in the submitted geotechnical (soils) report.
+  </p>
+
+  <p><strong>This report:</strong></p>
+  <ul>
+    <li>Does not replace a stamped geotechnical engineering report</li>
+    <li>Does not constitute engineering design, certification, or approval</li>
+    <li>Is intended solely for planning, feasibility, and preliminary review purposes</li>
+  </ul>
+
+  <p><strong>Results are dependent on:</strong></p>
+  <ul>
+    <li>The completeness and accuracy of the source document</li>
+    <li>Assumptions explicitly stated in this report</li>
+    <li>Limitations in text extraction and interpretation</li>
+  </ul>
+
+  <p><strong>Users are strongly advised to:</strong></p>
+  <ul>
+    <li>Engage a licensed geotechnical engineer for final design and approval</li>
+    <li>Independently verify all findings prior to construction or permitting</li>
+  </ul>
+
+  <p><strong>No liability is assumed for decisions made based on this report.</strong></p>
+</div>
+
 
   <script src="app.js"></script>
 </body>
