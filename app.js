@@ -119,12 +119,19 @@ submitBtn.addEventListener('click', async ()=>{
 
     statusMessage.textContent = 'Sending to Make.com...';
 
-    await fetch(MAKE_WEBHOOK_URL, {
-      method:'POST',
-      mode:'no-cors',
-      headers:{ 'Content-Type':'application/json' },
-      body: JSON.stringify(payload)
-    });
+    const fd = new FormData();
+    fd.append("report_file", fileInput.files[0]);   // the PDF file
+    fd.append("filename", fileInput.files[0].name);
+    fd.append("client_name", clientNameInput.value || "");
+    fd.append("project_hint", projectHintInput.value || "");
+    fd.append("source", "vendetti-web-uploader");
+    fd.append("sent_at_iso", new Date().toISOString());
+    
+    const response = await fetch(MAKE_WEBHOOK_URL, {
+  method: "POST",
+  body: fd
+});
+
 
     statusMessage.style.color = '#28a745';
     statusMessage.textContent = '✓ Submitted (request sent). Check Make.com “Run once” / execution log to confirm receipt.';
