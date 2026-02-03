@@ -90,6 +90,7 @@ function formatFileSize(bytes){
 }
 
 submitBtn.addEventListener('click', async ()=>{
+  console.log("Submitting to webhook:", MAKE_WEBHOOK_URL);
   if(!fileInput.files || fileInput.files.length === 0){
     alert('Please select a PDF file before submitting');
     return;
