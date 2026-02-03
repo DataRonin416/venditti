@@ -1,5 +1,5 @@
 // Hard-coded Make webhook (updated)
-const MAKE_WEBHOOK_URL = "https://hook.us2.make.com/kvznu3trya8b4vl83v6dajyv6jvt2pa0";
+const MAKE_WEBHOOK_URL = "https://hook.us2.make.com/lnpabxklvc4l17jda54dgh8x6x1gh7q5";
 
 const fileInput = document.getElementById('fileInput');
 const fileList = document.getElementById('fileList');
