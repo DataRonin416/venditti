@@ -4,7 +4,7 @@
 // 3. Notifies Make.com to start processing
 
 // CONFIGURATION
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzMQwQ6gX_24qZ0Dk4MvcxtiLgooPc2r-Nr2EC3ZlU1iTC1Ck05b9GRuTqpiIeGgPLc/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8QLnnzVtO-GfQOyhVMde77GDVnp60PIcT1lLCMkZLDIA4MVuxF5qhhHEFIlp-0LGH/exec";
 const MAKE_WEBHOOK_URL = "https://hook.us2.make.com/nnsatp6r5c33pgurffkk4ny8w6x4jpm7"; // Your "Processor" Webhook
 
 // ---- DOM refs ----
@@ -81,63 +81,61 @@ if (form) {
     statusMessage.style.color = "#333";
 
     try {
-      // 1. GET SIGNED URL (The "VIP Pass")
-      const authResponse = await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors', // Apps Script quirk
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: file.name }) 
-      });
+  // 1. GET SIGNED URL
+  const ticketResponse = await fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fileName: file.name })
+  });
+  
+  if (!ticketResponse.ok) {
+    throw new Error("Failed to get upload URL from server");
+  }
+  
+  const ticketData = await ticketResponse.json();
+  
+  if (!ticketData.signedUrl) {
+    throw new Error("No upload URL received");
+  }
 
-      // Note: 'no-cors' mode means we can't read the response directly in standard fetch.
-      // FIX: We must use the redirect method or standard POST.
-      // Let's retry with standard POST expecting the script handles CORS correctly (we set "Anyone" access).
-      
-      const ticketResponse = await fetch(APPS_SCRIPT_URL, {
-         method: "POST",
-         body: JSON.stringify({ filename: file.name })
-      });
-      
-      if (!ticketResponse.ok) throw new Error("Failed to get upload ticket from Google.");
-      const ticketData = await ticketResponse.json();
-      
-      if (!ticketData.signedUrl) throw new Error("No signed URL returned: " + JSON.stringify(ticketData));
+  // 2. UPLOAD TO GOOGLE CLOUD
+  submitBtn.textContent = "Step 2/3: Uploading to Cloud...";
+  
+  const uploadResponse = await fetch(ticketData.signedUrl, {
+    method: "PUT",
+    headers: { "Content-Type": file.type || "application/pdf" },
+    body: file
+  });
 
-      // 2. UPLOAD TO GOOGLE CLOUD (The "Heavy Lifting")
-      submitBtn.textContent = "Step 2/3: Uploading to Cloud...";
-      
-      const uploadResponse = await fetch(ticketData.signedUrl, {
-        method: "PUT",
-        headers: { "Content-Type": file.type || "application/pdf" },
-        body: file
-      });
+  if (!uploadResponse.ok) {
+    throw new Error("Cloud upload failed: " + uploadResponse.statusText);
+  }
 
-      if (!uploadResponse.ok) throw new Error("Cloud upload failed: " + uploadResponse.statusText);
+  // 3. NOTIFY MAKE.COM
+  submitBtn.textContent = "Step 3/3: Starting Analysis...";
+  
+  const payload = {
+    filename: file.name,
+    client_name: clientNameEl ? clientNameEl.value : "",
+    project_hint: projectHintEl ? projectHintEl.value : ""
+  };
 
-      // 3. NOTIFY MAKE.COM (The "Start Button")
-      submitBtn.textContent = "Step 3/3: Starting Analysis...";
-      
-      const payload = {
-        filename: file.name,
-        client_name: clientNameEl ? clientNameEl.value : "",
-        project_hint: projectHintEl ? projectHintEl.value : ""
-      };
+  const triggerResponse = await fetch(MAKE_WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
 
-      const triggerResponse = await fetch(MAKE_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
+  if (!triggerResponse.ok) {
+    throw new Error("Analysis failed to start");
+  }
 
-      if (!triggerResponse.ok) throw new Error("Analysis failed to start.");
-
-      // SUCCESS
-      statusMessage.style.color = "#28a745";
-      statusMessage.textContent = "✓ Report uploaded & analysis started successfully!";
-      
-      // Reset
-      form.reset();
-      updateFileList();
+  // SUCCESS
+  statusMessage.style.color = "#28a745";
+  statusMessage.textContent = "✓ Report uploaded & analysis started successfully!";
+  
+  form.reset();
+  updateFileList();
 
     } catch (err) {
       console.error(err);
