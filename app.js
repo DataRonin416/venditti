@@ -81,10 +81,11 @@ if (form) {
     statusMessage.style.color = "#333";
 
     try {
-  // 1. GET SIGNED URL
+// 1. GET SIGNED URL
   const ticketResponse = await fetch(APPS_SCRIPT_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    // CHANGE THIS LINE BELOW: Use text/plain to avoid CORS Preflight issues
+    headers: { "Content-Type": "text/plain" }, 
     body: JSON.stringify({ fileName: file.name })
   });
   
