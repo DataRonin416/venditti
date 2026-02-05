@@ -6,7 +6,7 @@
 // - Adds stronger response/error handling + clearer status messages
 
 // Hard-coded Make webhook (updated)
-const MAKE_WEBHOOK_URL = "https://hook.us2.make.com/lnpabxklvc4l17jda54dgh8x6x1gh7q5";
+const MAKE_WEBHOOK_URL = "https://hook.us2.make.com/nnsatp6r5c33pgurffkk4ny8w6x4jpm7";
 
 // ---- DOM refs ----
 const fileInput = document.getElementById("fileInput");
