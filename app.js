@@ -16,8 +16,9 @@ const submitBtn = document.getElementById("submitBtn");
 const statusMessage = document.getElementById("statusMessage");
 
 // Optional fields
-const projectHintEl = document.querySelector('input[name="project_hint"]');
-const clientNameEl = document.querySelector('input[name="client_name"]');
+// Submitter fields
+const submitterNameEl = document.querySelector('input[name="submitter_name"]');
+const submitterEmailEl = document.querySelector('input[name="submitter_email"]');
 
 // ---- UI Helpers ----
 (function initReveal() {
@@ -119,9 +120,9 @@ if (form) {
       
       const payload = {
         filename: file.name,
-        client_name: clientNameEl ? clientNameEl.value : "",
-        project_hint: projectHintEl ? projectHintEl.value : ""
-      };
+        submitter_name: submitterNameEl ? submitterNameEl.value : "",
+        submitter_email: submitterEmailEl ? submitterEmailEl.value : ""
+      };;
 
       const triggerResponse = await fetch(MAKE_WEBHOOK_URL, {
         method: "POST",
