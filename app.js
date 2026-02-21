@@ -4,7 +4,7 @@
 // 3. Notifies Make.com to start processing
 
 // CONFIGURATION
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbySuszw1lRLjIqAJHlxnFymBdh9QWhl3F_Jbyp_UBTUQ92iF7jI02-pAjw1-S6nAnY/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxh0Kkt-DDLi2AfbpQ0gPW4d9GPdP-qBSfUWWuwY-EC5CbJQZlRcx4JqZNpe6VTe3Rh/exec";
 const MAKE_WEBHOOK_URL = "https://hook.us2.make.com/ig5i3zz5gqls0sf1enlujb0lhkepbm0x"; // Your "Processor" Webhook
 
 // ---- DOM refs ----
