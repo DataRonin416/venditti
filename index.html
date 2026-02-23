@@ -1,196 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gheener-Gaby AI</title>
-  <link rel="icon" type="image/x-icon" href="favicon.png" />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div class="container">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geotechnical Analysis at the Speed of Thought</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    ::selection { background-color: #E2E8F0; }
 
-    <header class="reveal">
-      <div class="logoBadge">
-        <img class="logoImg" src="Vendetti-Logo-Blue-White.avif" alt="Vendetti logo" />
+    /* Nav transitions */
+    #mainNav {
+      transition: background 0.3s, padding 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+    }
+    #mainNav.scrolled {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgb(231 229 228);
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+    #mainNav.not-scrolled {
+      background: transparent;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+
+    /* Hover lift on ROI cards */
+    .roi-card { transition: transform 0.2s ease; }
+    .roi-card:hover { transform: translateY(-8px); }
+
+    /* Upload zone drag state */
+    #uploadZone.dragging {
+      border-color: #6366f1;
+      background-color: rgba(238, 242, 255, 0.3);
+    }
+    #uploadZone.dragging #uploadIconWrapper {
+      background-color: #6366f1;
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    /* Group hover for iframe cards */
+    .card-group:hover .card-bg { transform: scale(1.05); }
+    .card-bg { transition: transform 0.3s ease; }
+  </style>
+</head>
+<body class="min-h-screen bg-[#F9F8F6] text-[#2D2D2D] font-sans">
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <nav id="mainNav" class="not-scrolled fixed top-0 w-full z-50">
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+
+      <div class="flex items-center space-x-8">
+        <div class="flex items-center gap-6">
+
+          <!-- Client Logo -->
+          <div class="flex flex-col">
+            <span class="text-[9px] uppercase tracking-[0.3em] text-stone-400 font-bold mb-1">Client</span>
+            <img src="client.png" alt="Venditti" class="h-6 w-auto block object-contain"
+                 onerror="this.style.display='none'; document.getElementById('vendittiFallback').style.display='block'">
+            <span id="vendittiFallback" class="text-lg font-bold tracking-tighter text-[#1A1A1A] hidden">VENDITTI</span>
+          </div>
+
+          <div class="h-8 w-px bg-stone-200 hidden md:block"></div>
+
+          <!-- Data Ronin Logo -->
+          <div class="hidden md:flex flex-col">
+            <span class="text-[9px] uppercase tracking-[0.3em] text-stone-400 font-bold mb-1">Partner</span>
+            <img src="roninlogo.png" alt="Data Ronin" class="h-6 w-auto block object-contain">
+          </div>
+
+        </div>
       </div>
 
-      <h1>AI PVR Conversion Review Tool</h1>
-      <p class="tagline">Transform Geotechnical Reports in Minutes, Not Days</p>
-      <p class="hero-text">
-        Automated AI-powered analysis that converts soil reports into professional PVR Conversion Reports
-        with speed and consistency.
+      <div class="hidden lg:flex space-x-8 text-sm font-medium tracking-wide uppercase">
+        <a href="#problem" class="hover:text-stone-500 transition-colors">The Problem</a>
+        <a href="#solution" class="hover:text-stone-500 transition-colors">The Future</a>
+        <a href="#roi" class="hover:text-stone-500 transition-colors">ROI</a>
+      </div>
+
+      <a href="#process-section"
+         onclick="event.preventDefault(); document.getElementById('process-section').scrollIntoView({behavior:'smooth'});"
+         class="bg-[#1A1A1A] text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-stone-800 transition-all active:scale-95 shadow-lg shadow-black/10 cursor-pointer">
+        Launch Analysis
+      </a>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="relative pt-40 pb-20 px-6 overflow-hidden">
+    <div class="max-w-5xl mx-auto text-center relative z-10">
+
+      <div class="inline-block px-4 py-1 mb-6 border border-stone-300 rounded-full bg-white/50 text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold">
+        February 2026 Prototype
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-light tracking-tight mb-8 leading-[1.1] text-[#1A1A1A]">
+        Geotechnical Analysis <br>
+        <span class="font-serif italic text-stone-500">at the speed of thought.</span>
+      </h1>
+
+      <p class="text-xl md:text-2xl text-stone-600 max-w-2xl mx-auto font-light leading-relaxed mb-12">
+        Automating the conversion of soil reports into professional PVR deliverables.
+        From 10 hours to 10 minutes.
       </p>
 
-      <!-- Hero Illustration (Claude-style) -->
-      <svg class="hero-illustration" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-          </linearGradient>
-          <linearGradient id="documentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#f5f7fa;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#c3cfe2;stop-opacity:1" />
-          </linearGradient>
-        </defs>
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+        <button class="w-full md:w-auto px-10 py-4 bg-[#1A1A1A] text-white rounded-xl font-bold text-lg hover:shadow-2xl transition-all flex items-center justify-center gap-3">
+          Get Started
+          <!-- ChevronRight -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+        <button class="w-full md:w-auto px-10 py-4 border border-stone-300 rounded-xl font-medium text-lg hover:bg-stone-50 transition-all">
+          View Sample Report
+        </button>
+      </div>
+    </div>
 
-        <rect x="50" y="300" width="500" height="80" fill="#8B7355" opacity="0.3"/>
-        <rect x="100" y="320" width="50" height="20" fill="#FFA500" opacity="0.5"/>
-        <rect x="200" y="310" width="50" height="30" fill="#FFA500" opacity="0.5"/>
-
-        <ellipse cx="500" cy="330" rx="25" ry="8" fill="#FFA500" opacity="0.4"/>
-        <path d="M 475 330 Q 500 310 525 330" fill="#FFA500" opacity="0.5"/>
-
-        <rect x="80" y="120" width="150" height="200" fill="url(#documentGradient)" rx="5"/>
-        <line x1="100" y1="150" x2="210" y2="150" stroke="#667eea" stroke-width="3"/>
-        <line x1="100" y1="170" x2="210" y2="170" stroke="#667eea" stroke-width="3"/>
-        <line x1="100" y1="190" x2="210" y2="190" stroke="#667eea" stroke-width="3"/>
-        <line x1="100" y1="210" x2="180" y2="210" stroke="#667eea" stroke-width="3"/>
-        <line x1="100" y1="230" x2="210" y2="230" stroke="#667eea" stroke-width="2" opacity="0.5"/>
-        <line x1="100" y1="250" x2="190" y2="250" stroke="#667eea" stroke-width="2" opacity="0.5"/>
-        <text x="155" y="290" font-size="14" fill="#667eea" text-anchor="middle" font-weight="bold">Soil Report</text>
-
-        <circle cx="300" cy="220" r="60" fill="url(#heroGradient)" opacity="0.2"/>
-        <circle cx="300" cy="220" r="45" fill="url(#heroGradient)"/>
-
-        <circle cx="280" cy="205" r="4" fill="white"/>
-        <circle cx="320" cy="205" r="4" fill="white"/>
-        <circle cx="280" cy="235" r="4" fill="white"/>
-        <circle cx="320" cy="235" r="4" fill="white"/>
-        <line x1="280" y1="205" x2="320" y2="205" stroke="white" stroke-width="2"/>
-        <line x1="280" y1="235" x2="320" y2="235" stroke="white" stroke-width="2"/>
-        <line x1="280" y1="205" x2="280" y2="235" stroke="white" stroke-width="2"/>
-        <line x1="320" y1="205" x2="320" y2="235" stroke="white" stroke-width="2"/>
-        <circle cx="300" cy="220" r="8" fill="white"/>
-
-        <path d="M 235 220 L 250 220" stroke="#764ba2" stroke-width="4" fill="none"/>
-        <polygon points="250,220 243,216 243,224" fill="#764ba2"/>
-
-        <path d="M 350 220 L 365 220" stroke="#764ba2" stroke-width="4" fill="none"/>
-        <polygon points="365,220 358,216 358,224" fill="#764ba2"/>
-
-        <rect x="370" y="120" width="150" height="200" fill="url(#documentGradient)" rx="5"/>
-        <rect x="385" y="145" width="120" height="8" fill="#28a745" rx="2"/>
-        <rect x="385" y="165" width="90" height="6" fill="#28a745" rx="2"/>
-        <rect x="385" y="180" width="110" height="6" fill="#28a745" rx="2"/>
-        <rect x="385" y="195" width="80" height="6" fill="#28a745" rx="2"/>
-
-        <circle cx="445" cy="245" r="25" fill="#28a745"/>
-        <path d="M 435 245 L 442 252 L 455 235" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <text x="445" y="290" font-size="14" fill="#28a745" text-anchor="middle" font-weight="bold">PVR Report</text>
+    <!-- Decorative Japanese-style circle art -->
+    <div class="absolute top-20 right-[-5%] opacity-10 pointer-events-none">
+      <svg width="400" height="400" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="0.2"/>
+        <path d="M20 100 Q 100 20, 180 100" fill="none" stroke="currentColor" stroke-width="0.5"/>
+        <path d="M20 120 Q 100 40, 180 120" fill="none" stroke="currentColor" stroke-width="0.5"/>
       </svg>
-    </header>
+    </div>
+  </header>
 
-    <div class="main-content reveal">
-      <section class="features-section reveal">
-        <h2>How It Works</h2>
+  <!-- ===================== PROBLEM ===================== -->
+  <section id="problem" class="py-24 bg-white border-y border-stone-100">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
 
-        <div class="features-grid">
-          <div class="feature-card reveal">
-            <div class="feature-number">1</div>
-            <h3>Upload Your Report</h3>
-            <p>Upload a geotechnical soils report (PDF).</p>
-          </div>
-          <div class="feature-card reveal">
-            <div class="feature-number">2</div>
-            <h3>AI Extraction</h3>
-            <p>AI extracts all PVR-relevant data with traceability.</p>
-          </div>
-          <div class="feature-card reveal">
-            <div class="feature-number">3</div>
-            <h3>Soil Modifications</h3>
-            <p>Mitigation recommendations are produced when supported by the report data.</p>
-          </div>
-          <div class="feature-card reveal">
-            <div class="feature-number">4</div>
-            <h3>Data Validation</h3>
-            <p>Missing or unclear items are clearly flagged for review.</p>
-          </div>
-          <div class="feature-card reveal">
-            <div class="feature-number">5</div>
-            <h3>Concern Identification</h3>
-            <p>Areas of concern are highlighted with report references where available.</p>
-          </div>
-          <div class="feature-card reveal">
-            <div class="feature-number">6</div>
-            <h3>Report Generation</h3>
-            <p>A professional PVR Conversion Report is generated automatically.</p>
-          </div>
-        </div>
-
-        <div class="deliverables reveal">
-          <h3>What You Receive:</h3>
-          <ul>
-            <li>A comprehensive report output</li>
-            <li>Structured data ready for internal workflows</li>
-            <li>A confidence score explaining result reliability</li>
-            <li>Clear next steps when information is missing</li>
-          </ul>
-          <div class="center">
-            <span class="speed-badge">⚡ Minutes — not days</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Upload Section (Submit sends to Make webhook) -->
-      <section class="upload-section reveal">
-        <h2>Upload Your Geotechnical Report</h2>
-
-        <form id="uploadForm" enctype="multipart/form-data">
-          <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="Upload zone">
-            <div class="upload-text">Upload Geotechnical Report (PDF)</div>
-            <div class="upload-subtext">Click to select your file or drag and drop</div>
-            <input type="file" name="report_file" id="fileInput" accept="application/pdf" required />
-          </div>
-
-          <div class="file-list" id="fileList"></div>
-
-          <div id="additionalFields" class="additionalFields">
-            <div class="field">
-              <input type="text" name="submitter_name" placeholder="Your Name" />
-            </div>
-            <div class="field">
-              <input type="email" name="submitter_email" placeholder="Email" />
-            </div>
-
-            <button type="submit" id="submitBtn" class="btn-primary">Submit Report for Analysis</button>
-            <div id="statusMessage" class="statusMessage"></div>
-          </div>
-        </form>
-      </section>
-<div class="main-content disclaimer reveal">
-  <h3>LEGAL &amp; PROFESSIONAL DISCLAIMER</h3>
-
-  <p>
-    This PVR Conversion Report was generated using automated analysis and artificial intelligence based on the
-    information available in the submitted geotechnical (soils) report.
-  </p>
-
-  <p><strong>This report:</strong></p>
-  <ul>
-    <li>Does not replace a stamped geotechnical engineering report</li>
-    <li>Does not constitute engineering design, certification, or approval</li>
-    <li>Is intended solely for planning, feasibility, and preliminary review purposes</li>
-  </ul>
-
-  <p><strong>Results are dependent on:</strong></p>
-  <ul>
-    <li>The completeness and accuracy of the source document</li>
-    <li>Assumptions explicitly stated in this report</li>
-    <li>Limitations in text extraction and interpretation</li>
-  </ul>
-
-  <p><strong>Users are strongly advised to:</strong></p>
-  <ul>
-    <li>Engage a licensed geotechnical engineer for final design and approval</li>
-    <li>Independently verify all findings prior to construction or permitting</li>
-  </ul>
-
-  <p><strong>No liability is assumed for decisions made based on this report.</strong></p>
-</div>
-
-
-  <script src="app.js"></script>
-</body>
-</html>
+        <div>
+          <span class="text-[#E63946] font-bold text-xs uppercase tracking-widest block mb-4">The Challenge</span>
+          <h2 class="text-4xl font-light mb-6 text-[#1A1A1A]">A Costly, Manual Bottleneck.</h2>
+          <div class="space-y-6 text-stone-600 text-lg leading-relaxed">
+            <p>
+              Senior engineers currently spend <strong>6–10 hours</strong> per report manually formatting data.
+              This pulls licensed professionals away from billable field work to perform repetitive data entry.
+            </p>
+            <div class="flex items-start gap-4 p-6 bg-stone-50 rounded-2xl border-l-4 border-stone-300">
+              <!-- Clock icon -->
+              <svg class="text-stone-400 mt-1 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <p class="text-base italic">
+                "Every project in expansive soil territory requires a P
