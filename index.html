@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Geotechnical Analysis at the Speed of Thought</title>
+  <link rel="icon" type="image/x-icon" href="favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     ::selection { background-color: #E2E8F0; }
@@ -30,12 +31,12 @@
     .roi-card { transition: transform 0.2s ease; }
     .roi-card:hover { transform: translateY(-8px); }
 
-    /* Upload zone drag state */
-    #uploadZone.dragging {
+    /* Upload zone drag state — matches app.js class name "dragover" */
+    #uploadZone.dragover {
       border-color: #6366f1;
       background-color: rgba(238, 242, 255, 0.3);
     }
-    #uploadZone.dragging #uploadIconWrapper {
+    #uploadZone.dragover #uploadIconWrapper {
       background-color: #6366f1;
       color: #fff;
       transform: scale(1.1);
@@ -58,7 +59,7 @@
           <!-- Client Logo -->
           <div class="flex flex-col">
             <span class="text-[9px] uppercase tracking-[0.3em] text-stone-400 font-bold mb-1">Client</span>
-            <img src="client.png" alt="Venditti" class="h-6 w-auto block object-contain"
+            <img src="assets/client.png" alt="Venditti" class="h-6 w-auto block object-contain"
                  onerror="this.style.display='none'; document.getElementById('vendittiFallback').style.display='block'">
             <span id="vendittiFallback" class="text-lg font-bold tracking-tighter text-[#1A1A1A] hidden">VENDITTI</span>
           </div>
@@ -68,7 +69,7 @@
           <!-- Data Ronin Logo -->
           <div class="hidden md:flex flex-col">
             <span class="text-[9px] uppercase tracking-[0.3em] text-stone-400 font-bold mb-1">Partner</span>
-            <img src="roninlogo.png" alt="Data Ronin" class="h-6 w-auto block object-contain">
+            <img src="assets/roninlogo.png" alt="Data Ronin" class="h-6 w-auto block object-contain">
           </div>
 
         </div>
@@ -483,12 +484,12 @@
         <div class="flex items-center gap-8">
           <div class="flex flex-col items-start grayscale opacity-60">
             <span class="text-[8px] uppercase tracking-widest font-bold mb-1">Client</span>
-            <img src="client.png" alt="Venditti" class="h-5 w-auto">
+            <img src="assets/client.png" alt="Venditti" class="h-5 w-auto">
           </div>
           <div class="h-8 w-px bg-stone-200"></div>
           <div class="flex flex-col items-start opacity-80">
             <span class="text-[8px] uppercase tracking-widest font-bold mb-1 text-stone-400">Partner</span>
-            <img src="roninlogo.png" alt="Data Ronin" class="h-5 w-auto">
+            <img src="assets/roninlogo.png" alt="Data Ronin" class="h-5 w-auto">
           </div>
         </div>
         <div class="text-[10px] text-stone-400 uppercase tracking-widest font-bold">
@@ -512,68 +513,11 @@
         nav.classList.add('not-scrolled');
       }
     });
-
-    // ── Upload drag-and-drop ───────────────────────────────────────
-    const uploadZone      = document.getElementById('uploadZone');
-    const uploadIcon      = document.getElementById('uploadIconWrapper');
-    const fileInput       = document.getElementById('fileInput');
-    const fileListEl      = document.getElementById('fileList');
-    const statusMsg       = document.getElementById('statusMessage');
-
-    uploadZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      uploadZone.classList.add('dragging');
-    });
-
-    uploadZone.addEventListener('dragleave', (e) => {
-      if (!uploadZone.contains(e.relatedTarget)) {
-        uploadZone.classList.remove('dragging');
-      }
-    });
-
-    uploadZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      uploadZone.classList.remove('dragging');
-      if (e.dataTransfer.files.length) {
-        fileInput.files = e.dataTransfer.files;
-        showFiles(e.dataTransfer.files);
-      }
-    });
-
-    fileInput.addEventListener('change', () => {
-      if (fileInput.files.length) showFiles(fileInput.files);
-    });
-
-    function showFiles(files) {
-      fileListEl.innerHTML = '';
-      Array.from(files).forEach(f => {
-        const row = document.createElement('div');
-        row.className = 'flex items-center gap-3 px-5 py-3 bg-stone-50 rounded-xl border border-stone-200 text-sm text-stone-700';
-        row.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-               fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-          </svg>
-          <span class="flex-1 truncate font-medium">${f.name}</span>
-          <span class="text-stone-400">${(f.size / 1024 / 1024).toFixed(2)} MB</span>`;
-        fileListEl.appendChild(row);
-      });
-    }
-
-    // ── Form submit ────────────────────────────────────────────────
-    document.getElementById('uploadForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      statusMsg.textContent = 'Submitting your report…';
-      statusMsg.style.color = '#6366f1';
-
-      // Replace this timeout with your actual fetch/form submission logic
-      setTimeout(() => {
-        statusMsg.textContent = '✓ Report received! Check your inbox for results.';
-        statusMsg.style.color = '#16a34a';
-      }, 1500);
-    });
+    // Upload, drag-and-drop, and form submission are handled by app.js
   </script>
+
+  <!-- Real upload / submission logic -->
+  <script src="app.js"></script>
 
 </body>
 </html>
