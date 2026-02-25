@@ -56,21 +56,27 @@
       <div class="flex items-center space-x-8">
         <div class="flex items-center gap-6">
 
-          <!-- Client Logo -->
-          <div class="flex flex-col">
+          <!-- Client Logo Button -->
+          <a href="#process-section"
+             onclick="event.preventDefault(); document.getElementById('process-section').scrollIntoView({behavior:'smooth'});"
+             class="flex flex-col items-start px-4 py-2 bg-[#1A1A1A] rounded-xl hover:bg-stone-700 transition-all active:scale-95 cursor-pointer shadow-md"
+             style="min-width:140px; min-height:64px; justify-content:center;">
             <span class="text-[9px] uppercase tracking-[0.3em] text-stone-400 font-bold mb-1">Client</span>
-            <img src="assets/client.png" alt="Venditti" class="h-6 w-auto block object-contain"
+            <img src="assets/client.png" alt="Venditti" class="h-7 w-auto block object-contain"
                  onerror="this.style.display='none'; document.getElementById('vendittiFallback').style.display='block'">
-            <span id="vendittiFallback" class="text-lg font-bold tracking-tighter text-[#1A1A1A] hidden">VENDITTI</span>
-          </div>
+            <span id="vendittiFallback" class="text-lg font-bold tracking-tighter text-white hidden">VENDITTI</span>
+          </a>
 
           <div class="h-8 w-px bg-stone-200 hidden md:block"></div>
 
-          <!-- Data Ronin Logo -->
-          <div class="hidden md:flex flex-col">
+          <!-- Data Ronin Logo Button -->
+          <a href="#process-section"
+             onclick="event.preventDefault(); document.getElementById('process-section').scrollIntoView({behavior:'smooth'});"
+             class="hidden md:flex flex-col items-start px-4 py-2 bg-[#1A1A1A] rounded-xl hover:bg-stone-700 transition-all active:scale-95 cursor-pointer shadow-md"
+             style="min-width:140px; min-height:64px; justify-content:center;">
             <span class="text-[9px] uppercase tracking-[0.3em] text-stone-400 font-bold mb-1">Partner</span>
-            <img src="assets/roninlogo.png" alt="Data Ronin" class="h-6 w-auto block object-contain">
-          </div>
+            <img src="assets/roninlogo.png" alt="Data Ronin" class="h-7 w-auto block object-contain">
+          </a>
 
         </div>
       </div>
@@ -83,8 +89,8 @@
 
       <a href="#process-section"
          onclick="event.preventDefault(); document.getElementById('process-section').scrollIntoView({behavior:'smooth'});"
-         class="bg-[#1A1A1A] text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-stone-800 transition-all active:scale-95 shadow-lg shadow-black/10 cursor-pointer">
-        Launch Analysis
+         class="cursor-pointer active:scale-95 transition-transform inline-block">
+        <img src="assets/veteranlogo.png" alt="Veteran Owned Business" class="h-16 w-auto object-contain drop-shadow-lg hover:scale-105 transition-transform">
       </a>
     </div>
   </nav>
@@ -107,19 +113,21 @@
         From 10 hours to 10 minutes.
       </p>
 
-      <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-        <button class="w-full md:w-auto px-10 py-4 bg-[#1A1A1A] text-white rounded-xl font-bold text-lg hover:shadow-2xl transition-all flex items-center justify-center gap-3">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+        <button onclick="document.getElementById('process-section').scrollIntoView({behavior:'smooth'});"
+                class="w-full md:w-auto px-10 py-4 bg-[#1A1A1A] text-white rounded-xl font-bold text-lg hover:shadow-2xl transition-all flex items-center justify-center gap-3 active:scale-95">
           Get Started
-          <!-- ChevronRight -->
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
         </button>
-        <button class="w-full md:w-auto px-10 py-4 border border-stone-300 rounded-xl font-medium text-lg hover:bg-stone-50 transition-all">
+        <button onclick="openSampleReport()"
+                class="w-full md:w-auto px-10 py-4 border border-stone-300 rounded-xl font-medium text-lg hover:bg-stone-50 transition-all active:scale-95">
           View Sample Report
         </button>
       </div>
+
     </div>
 
     <!-- Decorative Japanese-style circle art -->
@@ -518,6 +526,34 @@
 
   <!-- Real upload / submission logic -->
   <script src="app.js"></script>
+
+
+  <!-- DataRonin Telegram Chat Button -->
+  <style>
+    #tg-chat-btn{position:fixed;bottom:24px;right:24px;border-radius:22px;width:64px;height:64px;background:#78716c;box-shadow:0 6px 32px rgba(120,113,108,.7),0 2px 8px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;text-decoration:none;z-index:9999;cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1);animation:tgPop .6s cubic-bezier(.34,1.56,.64,1) both;}
+    #tg-chat-btn:hover{transform:scale(1.12) translateY(-3px);}
+    #tg-chat-btn:hover .tg-tip{opacity:1;transform:translateY(0);}
+    .tg-tip{position:absolute;right:calc(100% + 14px);top:50%;transform:translateY(4px);background:#1e1c2e;color:#fff;font-size:.82rem;padding:8px 14px;border-radius:10px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 4px 20px rgba(0,0,0,.4);}
+    @keyframes tgPop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+    @keyframes tgPulse{0%{box-shadow:0 0 0 0 rgba(120,113,108,.6)}70%{box-shadow:0 0 0 18px rgba(120,113,108,0)}100%{box-shadow:0 0 0 0 rgba(120,113,108,0)}}
+  </style>
+  <a id="tg-chat-btn" href="https://t.me/DataRonin_Bot" target="_blank" rel="noopener">
+    <span style="position:absolute;inset:0;border-radius:inherit;animation:tgPulse 2.4s ease-out infinite;"></span>
+    <span class="tg-tip">Questions? Concerns?</span>
+    <svg viewBox="0 0 240 240" style="width:55%;height:55%;" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="75" y="55" width="90" height="75" rx="16" fill="white"/><circle cx="103" cy="90" r="10" fill="#78716c"/><circle cx="137" cy="90" r="10" fill="#78716c"/><rect x="100" y="108" width="40" height="8" rx="4" fill="#78716c"/><rect x="112" y="30" width="16" height="28" rx="8" fill="white"/><rect x="45" y="100" width="14" height="30" rx="7" fill="white"/><rect x="181" y="100" width="14" height="30" rx="7" fill="white"/><rect x="60" y="130" width="120" height="60" rx="16" fill="white"/><circle cx="90" cy="160" r="8" fill="#78716c"/><circle cx="150" cy="160" r="8" fill="#78716c"/>
+    </svg>
+    <span style="position:absolute;top:-4px;right:-4px;background:#ff4757;color:#fff;font-size:.65rem;font-weight:700;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #fff;">1</span>
+  </a>
+
+  <!-- Sample Report Popup Script -->
+  <script>
+    function openSampleReport() {
+      var popup = window.open('', 'SampleReport', 'width=900,height=700,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no');
+      popup.document.write('<!DOCTYPE html><html><head><title>Sample PVR Report</title><style>body,html{margin:0;padding:0;height:100%;background:#1a1a1a;}iframe{width:100%;height:100%;border:none;}</style></head><body><iframe src="assets/samplepvrreport.pdf" type="application/pdf"></iframe></body></html>');
+      popup.document.close();
+    }
+  </script>
 
 </body>
 </html>
